@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <stdio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
 
@@ -41,7 +40,7 @@ int main(void)
 		}
 
 		led_state = !led_state;
-		printf("LED state: %s\n", led_state ? "ON" : "OFF");
+		printk("LED state: %s\n", led_state ? "ON" : "OFF");
 		k_msleep(SLEEP_TIME_MS);
 	}
 	return 0;
