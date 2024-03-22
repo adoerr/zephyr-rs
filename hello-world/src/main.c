@@ -12,7 +12,7 @@ void rust_main(void);
 
 int main(void)
 {
-	printk("Starting Rust\n\n");
+	printk("Starting app\n");
 	rust_main();
-	printk("Done with Rust");
+	printk("Done with app");
 }
