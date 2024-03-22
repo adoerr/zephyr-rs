@@ -15,6 +15,8 @@ This project is for educational and explorative purposes only.
 <br>
 
 - [blinky](./blinky/) - Zephyr Blinky App for testing purposes
+<br>
+- [hello-world](./hello-world/) - Minimal Zephyr Rust App
 
 <br>
 
