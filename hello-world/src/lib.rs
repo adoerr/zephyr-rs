@@ -1,10 +1,10 @@
 #![no_std]
 
+use panic_halt as _;
+
 extern "C" {
     pub fn printk(text: *const u8);
 }
-
-use panic_halt as _;
 
 #[no_mangle]
 pub extern "C" fn rust_main() {
