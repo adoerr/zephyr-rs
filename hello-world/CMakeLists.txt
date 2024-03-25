@@ -9,9 +9,9 @@ project(hello-world)
 target_sources(app PRIVATE src/main.c)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
-    set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/target/thumbv6m-none-eabi/debug)
+    set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../target/thumbv6m-none-eabi/debug)
 else()
-    set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/target/thumbv6m-none-eabi/release)
+    set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../target/thumbv6m-none-eabi/release)
 endif()
 
 add_library(hello_world STATIC IMPORTED GLOBAL)
