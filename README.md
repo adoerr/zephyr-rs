@@ -10,7 +10,8 @@
 
 <br>
 
-This project is for educational and explorative purposes only.
+This project is for educational and explorative purposes only. The content is organized as a set of so called
+[Zephyr freestanding applications](https://docs.zephyrproject.org/latest/develop/application/index.html#zephyr-freestanding-application)
 
 <br>
 
