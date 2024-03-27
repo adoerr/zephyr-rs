@@ -22,8 +22,8 @@ This project is for educational and explorative purposes only. The content is or
 
 ## Hardware
 
-The only supported architecture is [Arm Cortex-M0](https://developer.arm.com/Processors/Cortex-M0)
-[(Armv6-M)](https://developer.arm.com/documentation/ddi0419/latest/) for now. The only supported board is the
+The only supported architecture is [Arm Cortex-M0+](https://developer.arm.com/Processors/Cortex-M0-Plus)
+using a [(Armv6-M)](https://developer.arm.com/documentation/ddi0419/latest/) ISA. The only supported board is the
 [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/). For quality of life reasons,
 make sure you get the [Debug Probe](https://www.raspberrypi.com/products/debug-probe/) as well.
 
