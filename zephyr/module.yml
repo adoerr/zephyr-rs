@@ -1,0 +1,5 @@
+name: zephyr-rs
+
+build:
+  cmake: .
+  kconfig: Kconfig
