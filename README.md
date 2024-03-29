@@ -6,17 +6,17 @@
     <img src="./zephyr.svg">
 </p>
 
-## Content
+<br>
+
+A Zephyr module that will allow to write Zephyr apps in Rust. This project is for educational and explorative purposes only.
 
 <br>
 
-This project is for educational and explorative purposes only. The content is organized as a set of so called
+The following examples are provided as so called
 [Zephyr freestanding applications](https://docs.zephyrproject.org/latest/develop/application/index.html#zephyr-freestanding-application)
 
-<br>
-
-- [blinky](./blinky/) - Zephyr Blinky App for testing purposes
-- [hello-world](./hello-world/) - Minimal Zephyr Rust App
+- [blinky](./examples/blinky/) - Zephyr Blinky App for testing purposes
+- [hello-world](./examples/hello-world/) - Minimal Zephyr Rust App
 
 <br>
 
