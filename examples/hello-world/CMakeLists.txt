@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.20.0)
 
 get_filename_component(ZEPHYR_RUST ${CMAKE_CURRENT_SOURCE_DIR}/../.. ABSOLUTE)
 
-list(APPEND ZEPHYR_EXTRA_MODULES ${ZEPHYR_RUST})
+list(APPEND EXTRA_ZEPHYR_MODULES ${ZEPHYR_RUST})
 
 message(STATUS "Zephyr Rust module: ${ZEPHYR_RUST}")
 
