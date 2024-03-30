@@ -1,0 +1,14 @@
+menuconfig RUST
+	bool "Rust"
+	select THREAD_CUSTOM_DATA
+	help
+	  Rust language support.
+
+if RUST
+
+    config RUST_ALLOC_KMALLOC
+	bool "k_malloc"
+	help
+	  Adjust the pool size with CONFIG_HEAP_MEM_POOL_SIZE. Must be non-zero.
+
+endif

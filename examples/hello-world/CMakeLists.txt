@@ -2,20 +2,12 @@
 
 cmake_minimum_required(VERSION 3.20.0)
 
-find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+get_filename_component(ZEPHYR_RUST ${CMAKE_CURRENT_SOURCE_DIR}/../.. ABSOLUTE)
 
-project(hello-world)
+list(APPEND ZEPHYR_EXTRA_MODULES ${ZEPHYR_RUST})
 
-target_sources(app PRIVATE src/main.c)
+find_package(Zephyr)
 
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-    set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../target/thumbv6m-none-eabi/debug)
-else()
-    set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../target/thumbv6m-none-eabi/release)
-endif()
+project(hello_world)
 
-add_library(hello_world STATIC IMPORTED GLOBAL)
-
-set_target_properties(hello_world PROPERTIES IMPORTED_LOCATION ${LIB_DIR}/libhello_world.a)
-
-target_link_libraries(app PUBLIC hello_world)
+target_sources(app PRIVATE ./src/main.c)

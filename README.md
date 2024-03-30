@@ -8,7 +8,7 @@
 
 <br>
 
-A Zephyr module that will allow to write Zephyr apps in Rust. This project is for educational and explorative purposes only.
+A Zephyr module that will allow to write Zephyr Apps in Rust. This project is for educational and explorative purposes only.
 
 <br>
 
