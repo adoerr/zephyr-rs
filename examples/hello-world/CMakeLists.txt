@@ -6,6 +6,8 @@ get_filename_component(ZEPHYR_RUST ${CMAKE_CURRENT_SOURCE_DIR}/../.. ABSOLUTE)
 
 list(APPEND ZEPHYR_EXTRA_MODULES ${ZEPHYR_RUST})
 
+message(STATUS "Zephyr Rust module: ${ZEPHYR_RUST}")
+
 find_package(Zephyr)
 
 project(hello_world)

@@ -1,7 +1,7 @@
 [workspace]
 members = [
  "crates/zephyr-sys",
- "examples/hello_world",
+ "examples/hello-world",
 ]
 
 resolver = "2"
