@@ -13,6 +13,19 @@ else()
     message(FATAL_ERROR "Arch ${ARCH} not supported")
 endif()
 
+# Enable cmake support for Rust
+set(Rust_CARGO_TARGET "${target}")
+
+include(FetchContent)
+
+FetchContent_Declare(
+        Corrosion
+        GIT_REPOSITORY https://github.com/corrosion-rs/corrosion.git
+        GIT_TAG v0.4
+)
+
+FetchContent_MakeAvailable(Corrosion)
+
 set(rust_app_build ${CMAKE_CURRENT_BINARY_DIR}/app)
 message(STATUS "Rust Build: ${rust_app_build}")
 
