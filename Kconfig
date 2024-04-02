@@ -12,13 +12,8 @@ if RUST
 	  Adjust the pool size with CONFIG_HEAP_MEM_POOL_SIZE. Must be non-zero.
 
 	config RUST_APP_NAME
-	string "Rust application name"
+	string "Rust app name"
     help
       Name of the Rust application.
 
-    config RUST_APP_MANIFEST_DIR
-    string "Rust application manifest directory"
-    help
-      Directory where the Rust application manifest is located.
-      
 endif

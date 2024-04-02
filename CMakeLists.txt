@@ -8,16 +8,41 @@ if(${ARCH} STREQUAL "arm")
     else()
         message(FATAL_ERROR "CPU not supported")
     endif ()
-    message(STATUS "Rust Target: ${target}")
+    message(STATUS "Rust target: ${target}")
 else()
     message(FATAL_ERROR "Arch ${ARCH} not supported")
 endif()
 
 # Enable cmake support for Rust
-set(Rust_CARGO_TARGET "${target}")
+set(RUST_CARGO_TARGET "${target}")
+
+set(RUST_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+message(STATUS "Rust binary dir: ${RUST_BINARY_DIR}")
 
 if (CONFIG_RUST)
-    message(STATUS "Rust target: ${Rust_CARGO_TARGET}")
-    message(STATUS "Rust app name ${CONFIG_RUST_APP_NAME}")
-    message(STATUS "Rust manifest ${CONFIG_RUST_APP_MANIFEST_DIR}")
+    set(RUST_LIB_NAME lib${CONFIG_RUST_APP_NAME}.a)
+    message(STATUS "Rust lib name: ${RUST_LIB_NAME}")
+
+    if (CONFIG_RUST)
+        include(ExternalProject)
+
+        ExternalProject_Add(
+                rust_project
+                PREFIX ${RUST_BINARY_DIR}
+                SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}
+                CONFIGURE_COMMAND ""
+                BUILD_IN_SOURCE TRUE
+                BUILD_ALWAYS TRUE
+                BUILD_COMMAND
+                "cargo"
+                "build"
+                "--release"
+                "--target-dir=${RUST_BINARY_DIR}"
+                INSTALL_COMMAND ""
+                BUILD_BYPRODUCTS
+                ${RUST_BINARY_DIR}/${RUST_CARGO_TARGET}/release/${RUST_LIB_NAME}
+        )
+
+        zephyr_library_import(zephyr-rs ${RUST_BINARY_DIR}/${RUST_CARGO_TARGET}/release/${RUST_LIB_NAME})
+    endif ()
 endif ()

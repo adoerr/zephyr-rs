@@ -14,5 +14,5 @@ int main(void)
 {
 	printk("Starting app\n");
 	rust_main();
-	printk("Done with app");
+	printk("Done with app\n");
 }
