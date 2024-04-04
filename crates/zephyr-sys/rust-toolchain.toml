@@ -1,4 +1,4 @@
-[toolchain]
+toolchain]
 channel = "nightly"
 components = ["llvm-tools-preview"]
 targets = ["thumbv6m-none-eabi"]

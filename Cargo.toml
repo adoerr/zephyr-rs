@@ -1,6 +1,6 @@
 [workspace]
 members = [
  "crates/zephyr-sys",
-]
+ "xtask"]
 
 resolver = "2"
