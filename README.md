@@ -8,15 +8,14 @@
 
 <br>
 
-A Zephyr module that will allow to write Zephyr Apps in Rust. This project is for educational and explorative purposes only.
+A [Zephyr module](https://docs.zephyrproject.org/latest/develop/modules.html) that will allow to write Zephyr
+applications in Rust.
 
 <br>
 
-The following examples are provided as so called
-[Zephyr freestanding applications](https://docs.zephyrproject.org/latest/develop/application/index.html#zephyr-freestanding-application)
-
-- [blinky](./examples/blinky/) - Zephyr Blinky App for testing purposes
-- [hello-world](./examples/hello-world/) - Minimal Zephyr Rust App
+<p align="center">
+🚫 This project is for educational and explorative purposes only. 🚫
+</p>
 
 <br>
 
