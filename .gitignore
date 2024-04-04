@@ -14,7 +14,7 @@ Cargo.lock
 **/.DS_Store
 
 # Ignore VSCode stuff
-**/.vscode
+#**/.vscode
 
 # Ignore JetBrains stuff
 **/.idea
