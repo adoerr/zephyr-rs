@@ -16,6 +16,9 @@ endif()
 # Enable cmake support for Rust
 set(RUST_CARGO_TARGET "${target}")
 
+set(RUST_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+message(STATUS "Rust source dir: ${RUST_SOURCE_DIR}")
+
 set(RUST_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 message(STATUS "Rust binary dir: ${RUST_BINARY_DIR}")
 

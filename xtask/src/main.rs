@@ -1,6 +1,7 @@
 use argh::FromArgs;
 
 #[derive(FromArgs)]
+#[allow(clippy::upper_case_acronyms)]
 /// xtask
 struct CLI {
     #[argh(subcommand)]
