@@ -32,7 +32,7 @@ if (CONFIG_RUST)
         ExternalProject_Add(
                 rust_project
                 PREFIX ${RUST_BINARY_DIR}
-                SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}
+                SOURCE_DIR ${RUST_SOURCE_DIR}/crates/zephyr-sys
                 CONFIGURE_COMMAND ""
                 BUILD_IN_SOURCE TRUE
                 BUILD_ALWAYS TRUE
