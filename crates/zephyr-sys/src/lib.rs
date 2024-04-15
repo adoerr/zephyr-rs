@@ -1,5 +1,11 @@
 #![no_std]
 
+extern crate alloc;
+
+mod log;
+
 extern "C" {
-    pub fn printk(text: *const u8);
+    pub fn k_str_out(msg: *const u8, len: usize);
 }
+
+pub use log::init;
