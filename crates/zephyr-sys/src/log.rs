@@ -5,8 +5,10 @@ use log::{LevelFilter, Metadata, Record};
 use crate::k_str_out;
 
 pub fn init(max_level: LevelFilter) {
-    log::set_logger(&LOGGER).unwrap();
-    log::set_max_level(max_level);
+    unsafe {
+        log::set_logger_racy(&LOGGER).unwrap();
+        log::set_max_level_racy(max_level);
+    }
 }
 
 static LOGGER: Logger = Logger;
