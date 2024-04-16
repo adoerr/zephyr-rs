@@ -25,6 +25,19 @@ pub const K_FOREVER: k_timeout_t = k_timeout_t {
 /// Null timeout delay
 pub const K_NO_WAIT: k_timeout_t = k_timeout_t { ticks: 0 };
 
+/// Kernel synchronized heap structure.
+#[repr(C)]
+pub struct k_heap {
+    _unused: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
+
 extern "C" {
-    pub fn k_str_out(msg: *const u8, len: usize);
+    /// Allocate memory from a [k_heap].
+    pub fn k_heap_alloc(heap: *mut k_heap, size: usize, timeout: k_timeout_t) -> *mut u8;
+    /// Free memory allocated by [k_heap_alloc].
+    pub fn k_heap_free(heap: *mut k_heap, mem: *mut u8);
+
+    /// Print kernel debugging message.
+    pub fn printk(fmt: *const core::ffi::c_char);
 }
