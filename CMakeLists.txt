@@ -13,6 +13,10 @@ else()
     message(FATAL_ERROR "Arch ${ARCH} not supported")
 endif()
 
+if (CONFIG_USERSPACE)
+    message(FATAL_ERROR "Rust doesn't support Zephyr User Mode")
+endif ()
+
 # Enable cmake support for Rust
 set(RUST_CARGO_TARGET "${target}")
 
