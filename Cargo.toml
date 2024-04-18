@@ -1,6 +1,11 @@
 [workspace]
 members = [
+ "crates/zephyr-alloc",
  "crates/zephyr-sys",
- "xtask"]
+ "xtask"
+]
 
 resolver = "2"
+
+[workspace.dependencies]
+zephyr-sys = { path = "crates/zephyr-sys" }

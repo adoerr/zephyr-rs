@@ -1,0 +1,11 @@
+[package]
+name = "zephyr-alloc"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "zephyr_alloc"
+doctest = false
+
+[dependencies]
+zephyr-sys = { workspace = true }
