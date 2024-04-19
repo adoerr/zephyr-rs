@@ -1,9 +1,8 @@
 use core::alloc::{GlobalAlloc, Layout};
 
-pub use sys::k_heap;
 use zephyr_sys as sys;
 
-pub struct Mempool(pub &'static k_heap);
+pub struct Mempool(pub &'static sys::k_heap);
 
 unsafe impl Send for Mempool {}
 unsafe impl Sync for Mempool {}
@@ -36,10 +35,10 @@ unsafe impl GlobalAlloc for Mempool {
 macro_rules! global_mem_pool {
     ($pool:ident) => {
         extern "C" {
-            static $pool: $crate::mempool::k_heap;
+            static $pool: ::zephyr_sys::k_heap;
         }
 
         #[global_allocator]
-        static GLOBAL: $crate::mempool::Mempool = $crate::mempool::Mempool(unsafe { &$pool });
+        static GLOBAL: $crate::Mempool = $crate::Mempool(unsafe { &$pool });
     };
 }
