@@ -1,6 +1,6 @@
 use std::{env, fs, path::PathBuf};
 
-use anyhow::{Result};
+use anyhow::Result;
 use argh::FromArgs;
 use bindgen::Builder;
 
@@ -27,8 +27,11 @@ pub fn generate(cfg: Bindgen) -> Result<()> {
         cfg.header, cfg.inc_path
     );
 
+    let flags = env::var("TARGET_CFLAGS").unwrap_or_default();
+
     let bindings = Builder::default()
         .header(header.to_str().unwrap())
+        .clang_args(flags.split_whitespace())
         .clang_arg(format!("-I{}", inc_path.to_str().unwrap()))
         .use_core()
         .generate()?;
