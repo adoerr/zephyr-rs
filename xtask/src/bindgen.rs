@@ -1,7 +1,8 @@
-use std::{fs, path::PathBuf};
+use std::{env, fs, path::PathBuf};
 
-use anyhow::{anyhow, Result};
+use anyhow::{Result};
 use argh::FromArgs;
+use bindgen::Builder;
 
 #[derive(FromArgs, PartialEq, Debug)]
 /// Generate Rust bindings for the Zephyr RTOS.
@@ -17,24 +18,24 @@ pub struct Bindgen {
 }
 
 pub fn generate(cfg: Bindgen) -> Result<()> {
-    fs::canonicalize(&cfg.header)
-        .map_err(|_| anyhow!("header `{:?}` not found", cfg.header))?
-        .is_file()
-        .then_some(())
-        .ok_or_else(|| anyhow!("header `{:?}` not found", cfg.header))?;
+    let header = fs::canonicalize(&cfg.header)?;
 
-    fs::canonicalize(&cfg.inc_path)
-        .map_err(|_| anyhow!("Zephyr include directory not found at {:?}", &cfg.inc_path))?
-        .is_dir()
-        .then_some(())
-        .ok_or_else(|| {
-            anyhow::anyhow!("Zephyr include directory not found at {:?}", &cfg.inc_path)
-        })?;
+    let inc_path = fs::canonicalize(&cfg.inc_path)?;
 
     println!(
         "Generating bindings for {:?} in {:?}",
         cfg.header, cfg.inc_path
     );
+
+    let bindings = Builder::default()
+        .header(header.to_str().unwrap())
+        .clang_arg(format!("-I{}", inc_path.to_str().unwrap()))
+        .use_core()
+        .generate()?;
+
+    // Write the bindings to the $OUT_DIR/bindings.rs file.
+    let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
+    bindings.write_to_file(out_path.join("bindings.rs"))?;
 
     Ok(())
 }
