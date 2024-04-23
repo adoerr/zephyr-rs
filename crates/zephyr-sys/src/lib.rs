@@ -32,13 +32,6 @@ pub struct k_heap {
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
 }
 
-/// Kernel thread structure.
-#[repr(C)]
-pub struct k_thread {
-    _unused: [u8; 0],
-    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
-}
-
 extern "C" {
     /// Allocate memory from a [k_heap].
     pub fn k_heap_alloc(heap: *mut k_heap, size: usize, timeout: k_timeout_t) -> *mut u8;
