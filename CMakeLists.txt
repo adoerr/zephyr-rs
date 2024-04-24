@@ -26,14 +26,16 @@ message(STATUS "Rust source dir: ${RUST_SOURCE_DIR}")
 set(RUST_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 message(STATUS "Rust binary dir: ${RUST_BINARY_DIR}")
 
-if  ( NOT ZEPHYR_BINDINGS_BINARY
+if  (NOT ZEPHYR_BINDINGS_BINARY)
         set(ZEPHYR_BINDINGS_CRATE ${CMAKE_CURRENT_SOURCE_DIR}/tools/zephyr-bindgen)
         message(STATUS "ZEPHYR bindings crate: ${ZEPHYR_BINDINGS_CRATE}")
 
-        set(ZEPHYR_BINDINGS_BUILD_DRIVER ${CMAKE_CURRENT_BINARY_DIR}/zephyr-bindings)
-        message(STATUS "ZEPHYR bindings build dir: ${ZEPHYR_BINDINGS_BUILD_DRIVER}")
+        set(ZEPHYR_BINDINGS_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR})
+        message(STATUS "ZEPHYR bindings build dir: ${ZEPHYR_BINDINGS_BUILD_DIR}")
 
         set(ZEPHYR_BINDINGS_BINARY ${ZEPHYR_BINDINGS_BUILD_DIR}/release/zephyr-bindings)
+
+        include(ExternalProject)
 
         ExternalProject_Add(
                 zephyr-bindings
@@ -51,7 +53,6 @@ if  ( NOT ZEPHYR_BINDINGS_BINARY
                 BUILD_BYPRODUCTS
                 ${ZEPHYR_BINDINGS_BINARY}
         )
-    )
 endif()
 
 set(RUST_BINDINGS_FILE ${RUST_BINDINGS_DIR}/bindings.rs)
@@ -60,27 +61,25 @@ if (CONFIG_RUST)
     set(RUST_LIB_NAME lib${CONFIG_RUST_APP_NAME}.a)
     message(STATUS "Rust lib name: ${RUST_LIB_NAME}")
 
-    if (CONFIG_RUST)
-        include(ExternalProject)
+    include(ExternalProject)
 
-        ExternalProject_Add(
-                rust_project
-                PREFIX ${RUST_BINARY_DIR}
-                SOURCE_DIR ${RUST_SOURCE_DIR}
-                CONFIGURE_COMMAND ""
-                BUILD_IN_SOURCE TRUE
-                BUILD_ALWAYS TRUE
-                DEPENDS rust_bindings
-                BUILD_COMMAND
-                "cargo"
-                "build"
-                "--release"
-                "--target-dir=${RUST_BINARY_DIR}"
-                INSTALL_COMMAND ""
-                BUILD_BYPRODUCTS
-                ${RUST_BINARY_DIR}/${RUST_CARGO_TARGET}/release/${RUST_LIB_NAME}
+    ExternalProject_Add(
+            rust_project
+            PREFIX ${RUST_BINARY_DIR}
+            SOURCE_DIR ${RUST_SOURCE_DIR}
+            CONFIGURE_COMMAND ""
+            BUILD_IN_SOURCE TRUE
+            BUILD_ALWAYS TRUE
+            DEPENDS zephyr-bindings
+            BUILD_COMMAND
+            "cargo"
+            "build"
+            "--release"
+            "--target-dir=${RUST_BINARY_DIR}"
+            INSTALL_COMMAND ""
+            BUILD_BYPRODUCTS
+            ${RUST_BINARY_DIR}/${RUST_CARGO_TARGET}/release/${RUST_LIB_NAME}
         )
 
         zephyr_library_import(zephyr-rs ${RUST_BINARY_DIR}/${RUST_CARGO_TARGET}/release/${RUST_LIB_NAME})
-    endif ()
 endif ()
