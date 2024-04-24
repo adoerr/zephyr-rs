@@ -5,10 +5,12 @@ cmake_minimum_required(VERSION 3.20.0)
 if(${ARCH} STREQUAL "arm")
     if(CONFIG_CPU_CORTEX_M0 OR CONFIG_CPU_CORTEX_M0PLUS)
         set(target thumbv6m-none-eabi)
+        set(clang_target thumb-v6m-unknown-none-eabi)
     else()
         message(FATAL_ERROR "CPU not supported")
     endif ()
     message(STATUS "Rust target: ${target}")
+    message(STATUS "Clang target: ${clang_target}")
 else()
     message(FATAL_ERROR "Arch ${ARCH} not supported")
 endif()
@@ -19,6 +21,7 @@ endif ()
 
 # Enable cmake support for Rust
 set(RUST_CARGO_TARGET "${target}")
+set(CLANG_TARGET "${clang_target}")
 
 set(RUST_SOURCE_DIR ${APPLICATION_SOURCE_DIR})
 message(STATUS "Rust source dir: ${RUST_SOURCE_DIR}")
@@ -55,14 +58,23 @@ if  (NOT ZEPHYR_BINDINGS_BINARY)
         )
 endif()
 
-set(RUST_BINDINGS_FILE ${CMAKE_CURRENT_SOURCE_DIR}/crates/zephyr-sys/bindings.rs)
+set(RUST_BINDINGS_FILE ${CMAKE_CURRENT_SOURCE_DIR}/crates/zephyr-sys/src/bindings.rs)
+set(ZEPHYR-SYS-CRATE ${CMAKE_CURRENT_SOURCE_DIR}/crates/zephyr-sys)
+
+zephyr_get_include_directories_for_lang_as_string(C includes)
+zephyr_get_system_include_directories_for_lang_as_string(C system_includes)
+zephyr_get_compile_definitions_for_lang_as_string(C definitions)
+
+#message(STATUS "CMSIS include directories: ${CMSIS_INCLUDE_DIRS}")
+
+set(TARGET_CFLAGS  "${includes} ${system_include} ${definitions} -imacros ${AUTOCONF_H}")
 
 if  (NOT EXISTS ${RUST_BINDINGS_FILE})
-    message(stats "Rust bindings file not found: ${RUST_BINDINGS_FILE}")
+    message(STATUS "Rust bindings file not found: ${RUST_BINDINGS_FILE}")
 
     add_custom_command(
             OUTPUT ${RUST_BINDINGS_FILE}
-            COMMAND ${ZEPHYR_BINDINGS_BINARY}
+            COMMAND ${ZEPHYR_BINDINGS_BINARY} ${ZEPHYR-SYS-CRATE} -- ${TARGET_CFLAGS} --target=${CLANG_TARGET}
             DEPENDS zephyr-bindings
     )
 
