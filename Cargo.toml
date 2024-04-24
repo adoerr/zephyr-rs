@@ -2,7 +2,7 @@
 members = [
  "crates/zephyr-alloc",
  "crates/zephyr-sys",
- "xtask"
+ "tools/zephyr-bindgen"
 ]
 
 resolver = "2"

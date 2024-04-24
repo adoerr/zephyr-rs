@@ -26,23 +26,37 @@ message(STATUS "Rust source dir: ${RUST_SOURCE_DIR}")
 set(RUST_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 message(STATUS "Rust binary dir: ${RUST_BINARY_DIR}")
 
-set(RUST_BINDINGS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-message(STATUS "Rust bindings dir: ${RUST_BINDINGS_DIR}")
+if  ( NOT ZEPHYR_BINDINGS_BINARY
+        set(ZEPHYR_BINDINGS_CRATE ${CMAKE_CURRENT_SOURCE_DIR}/tools/zephyr-bindgen)
+        message(STATUS "ZEPHYR bindings crate: ${ZEPHYR_BINDINGS_CRATE}")
+
+        set(ZEPHYR_BINDINGS_BUILD_DRIVER ${CMAKE_CURRENT_BINARY_DIR}/zephyr-bindings)
+        message(STATUS "ZEPHYR bindings build dir: ${ZEPHYR_BINDINGS_BUILD_DRIVER}")
+
+        set(ZEPHYR_BINDINGS_BINARY ${ZEPHYR_BINDINGS_BUILD_DIR}/release/zephyr-bindings)
+
+        ExternalProject_Add(
+                zephyr-bindings
+                PREFIX ${ZEPHYR_BINDINGS_BUILD_DIR}
+                SOURCE_DIR ${ZEPHYR_BINDINGS_CRATE}
+                CONFIGURE_COMMAND ""
+                BUILD_IN_SOURCE TRUE
+                BUILD_ALWAYS TRUE
+                BUILD_COMMAND
+                "cargo"
+                "build"
+                "--release"
+                "--target-dir=${ZEPHYR_BINDINGS_BUILD_DIR}"
+                INSTALL_COMMAND ""
+                BUILD_BYPRODUCTS
+                ${ZEPHYR_BINDINGS_BINARY}
+        )
+    )
+endif()
 
 set(RUST_BINDINGS_FILE ${RUST_BINDINGS_DIR}/bindings.rs)
 
 if (CONFIG_RUST)
-    add_custom_command(
-            OUTPUT ${RUST_BINDINGS_FILE}
-            COMMAND
-                cargo xtask bindings
-    )
-
-    add_custom_target(
-            rust_bindings
-            DEPENDS ${RUST_BINDINGS_FILE}
-    )
-
     set(RUST_LIB_NAME lib${CONFIG_RUST_APP_NAME}.a)
     message(STATUS "Rust lib name: ${RUST_LIB_NAME}")
 

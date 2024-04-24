@@ -1,9 +1,8 @@
 [package]
-name = "xtask"
+name = "zephyr-bindgen"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 anyhow = { version = "1.0.82" }
-argh = { version = "0.1.12" }
 bindgen = { version = "0.69.4" }
