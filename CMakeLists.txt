@@ -26,7 +26,23 @@ message(STATUS "Rust source dir: ${RUST_SOURCE_DIR}")
 set(RUST_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 message(STATUS "Rust binary dir: ${RUST_BINARY_DIR}")
 
+set(RUST_BINDINGS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+message(STATUS "Rust bindings dir: ${RUST_BINDINGS_DIR}")
+
+set(RUST_BINDINGS_FILE ${RUST_BINDINGS_DIR}/bindings.rs)
+
 if (CONFIG_RUST)
+    add_custom_command(
+            OUTPUT ${RUST_BINDINGS_FILE}
+            COMMAND
+                cargo xtask bindings
+    )
+
+    add_custom_target(
+            rust_bindings
+            DEPENDS ${RUST_BINDINGS_FILE}
+    )
+
     set(RUST_LIB_NAME lib${CONFIG_RUST_APP_NAME}.a)
     message(STATUS "Rust lib name: ${RUST_LIB_NAME}")
 
@@ -40,6 +56,7 @@ if (CONFIG_RUST)
                 CONFIGURE_COMMAND ""
                 BUILD_IN_SOURCE TRUE
                 BUILD_ALWAYS TRUE
+                DEPENDS rust_bindings
                 BUILD_COMMAND
                 "cargo"
                 "build"
